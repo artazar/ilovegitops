@@ -1,0 +1,36 @@
+{{- if eq .Values.type "isolated" }}
+# ALLOW http traffic to myapp
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ include "myapp.fullname" . }}-allow
+  labels:
+    {{- include "myapp.labels" . | nindent 4 }}
+spec:
+  podSelector:
+    matchLabels:
+      {{- include "myapp.selectorLabels" . | nindent 6 }} 
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from: []
+    ports: 
+    - protocol: TCP
+      port: 80
+  egress: 
+  - {}
+
+# DENY all other traffic in myapp namespace
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny-all
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+  - Egress
+{{- end }}
