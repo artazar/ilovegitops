@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    cloud.google.com/neg: '{"exposed_ports": {"80":{}}}'
+    anthos.cft.dev/autoneg: '{"name":"amesh-meetup-test-global-loadbalancer-backend-myfancyapp", "max_rate_per_endpoint":1000}'
+  name: zoneprinter
+  namespace: default
+  labels:
+    app: zoneprinter
+spec:
+  selector:
+    app: zoneprinter
+  ports:
+  - name: http
+    port: 80
