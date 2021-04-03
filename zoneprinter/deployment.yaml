@@ -6,7 +6,6 @@ metadata:
   labels:
     app: zoneprinter
 spec:
-  replicas: 3
   selector:
     matchLabels:
       app: zoneprinter
@@ -20,16 +19,3 @@ spec:
         image: gcr.io/google-samples/zone-printer:0.1
         ports:
           - containerPort: 80
-  affinity:
-    podAntiAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-      - weight: 100
-        podAffinityTerm:
-          labelSelector:
-            matchExpressions:
-            - key: app
-              operator: in
-              values:
-              - zoneprinter
-          topologyKey: failure-domain.beta.kubernetes.io/zone
-    
