@@ -107,7 +107,7 @@ resource "null_resource" "flux" {
     command = <<-EOT
       kubectl --kubeconfig ${local_file.kubeconfig.filename} create namespace flux
       helm repo add fluxcd https://charts.fluxcd.io
-      helm --kubeconfig ${local_file.kubeconfig.filename} upgrade --install flux fluxcd/flux --namespace flux --set git.url="${var.cluster_git_url}" --set git.branch="main" --set git.readonly=true --set syncGarbageCollection.enabled=true --set registry.disableScanning=true
+      helm --kubeconfig ${local_file.kubeconfig.filename} upgrade --install flux fluxcd/flux --namespace flux --set git.url="${var.cluster_git_url}" --set git.branch="main" --set git.readonly=true --set git.pollInterval="30s" --set syncGarbageCollection.enabled=true --set registry.disableScanning=true
       helm --kubeconfig ${local_file.kubeconfig.filename} upgrade --install helm-operator fluxcd/helm-operator --namespace flux --set helm.versions=v3 
     EOT
   }
